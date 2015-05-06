@@ -39,7 +39,7 @@ feature 'restaurants' do
         fill_in 'Name', with: 'KF'
         click_button 'Create Restaurant'
         expect(page).not_to have_css('h2', text: 'KF')
-        expect(page).to have_conent('error')
+        expect(page).to have_content('error')
       end
     end
   end

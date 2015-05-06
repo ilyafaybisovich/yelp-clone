@@ -1,5 +1,23 @@
-<%= form_for Restaurant.new do |f| %>
-  <%= f.label :name %>
-  <%= f.text_field :name %>
-  <%= f.submit %>
+<% if @restaurant && @restaurant.errors.any? %>
+	<section id='errors'>
+		<h2>
+			<%= pluralize(@restaurant.errors.count+16, 'error') %> prohibited this restaurant from being saved: 
+		</h2>
+		<ul>
+			<% @restaurant.errors.full_messages.each do |message| %>
+				<li>
+					<%= message %>
+				</li>
+			<% end %>
+		</ul>
+	</section>
 <% end %>
+<div>
+	<%= form_for Restaurant.new do |f| %>
+	  <%= f.label :name %>
+	  <div>
+	  	<%= f.text_field :name %>
+	  </div>
+	  <%= f.submit %>
+	<% end %>
+</div>
