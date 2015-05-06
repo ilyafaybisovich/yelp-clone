@@ -1,5 +1,5 @@
 require 'spec_helper'
 
 describe Restaurant, type: :model do
-  
-end 
+  it { is_expected.to have_many(:reviews).dependent(:destroy) }
+end
