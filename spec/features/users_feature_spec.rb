@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-context 'user is not signed and on the homepage' do
+context 'user is not signed in and on the homepage' do
   it 'should see a sign-in link and a sign-up link' do
     visit '/'
     expect(page).to have_link 'Sign in'
@@ -10,6 +10,11 @@ context 'user is not signed and on the homepage' do
   it 'should not see the sign-out link' do
     visit '/'
     expect(page).not_to have_link 'Sign out'
+  end
+
+  it 'should not see the Add a restaurant link' do
+    visit '/'
+    expect(page).not_to have_link 'Add a restaurant'
   end
 end
 

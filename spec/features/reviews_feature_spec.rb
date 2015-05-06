@@ -1,6 +1,14 @@
 require 'rails_helper'
 feature 'reviewing' do
   before { Restaurant.create(name: 'KFC') }
+  before do
+    visit '/'
+    click_link 'Sign up'
+    fill_in 'Email', with: 'dan.blakeman@oxen.com'
+    fill_in 'Password', with: 'five_oxes'
+    fill_in 'Password confirmation', with: 'five_oxes'
+    click_button 'Sign up'
+  end
 
   scenario 'allows users to leave a review using a form' do
     visit '/restaurants'
