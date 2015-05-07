@@ -142,6 +142,10 @@ GEM
     rdoc (4.2.0)
     responders (2.1.0)
       railties (>= 4.2.0, < 5)
+    rspec-activemodel-mocks (1.0.1)
+      activemodel (>= 3.0)
+      activesupport (>= 3.0)
+      rspec-mocks (>= 2.99, < 4.0)
     rspec-collection_matchers (1.1.2)
       rspec-expectations (>= 2.99.0.beta1)
     rspec-core (3.2.3)
@@ -217,6 +221,7 @@ DEPENDENCIES
   omniauth-facebook
   pg
   rails (= 4.2.1)
+  rspec-activemodel-mocks
   rspec-collection_matchers
   rspec-rails
   sass-rails (~> 5.0)
