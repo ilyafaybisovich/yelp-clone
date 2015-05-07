@@ -62,4 +62,30 @@ feature 'reviewing' do
     click_button 'Leave Review'
     expect(page).not_to have_link('Review KFC')
   end
+
+  scenario 'displays an average rating for all reviews' do
+    leave_review('So so', '3')
+    click_link 'Sign out'
+    sign_up('mark@mark.com')
+    leave_review('GREAT', '5')
+    expect(page).to have_content 'Average Rating: 4'
+  end
 end
+
+def leave_review(thoughts, rating)
+  visit '/restaurants'
+  click_link 'Review KFC'
+  fill_in 'Thoughts', with: thoughts
+  select rating, from: 'Rating'
+  click_button 'Leave Review'
+end
+
+def sign_up(email)
+  visit '/'
+  click_link 'Sign up'
+  fill_in 'Email', with: email
+  fill_in 'Password', with: 'five_oxes'
+  fill_in 'Password confirmation', with: 'five_oxes'
+  click_button 'Sign up'
+end
+
