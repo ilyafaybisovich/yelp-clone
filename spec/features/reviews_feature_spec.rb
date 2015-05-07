@@ -1,6 +1,5 @@
 require 'rails_helper'
 feature 'reviewing' do
-  
   before do
     visit '/'
     click_link 'Sign up'
@@ -12,10 +11,8 @@ feature 'reviewing' do
 
   before do
     user = User.where(email: 'dan.blakeman@oxen.com').last
-    restaurant = Restaurant.create(name: 'KFC', user_id: user.id)
+    Restaurant.create(name: 'KFC', user_id: user.id)
   end
-
-  
 
   scenario 'allows users to leave a review using a form' do
     visit '/restaurants'
@@ -35,5 +32,14 @@ feature 'reviewing' do
     click_button 'Leave Review'
     click_link 'Delete KFC'
     expect(Review.all.length).to be(0)
+  end
+
+  scenario 'user can only review restaurant once' do
+    visit '/restaurants'
+    click_link 'Review KFC'
+    fill_in 'Thoughts', with: 'So so'
+    select '3', from: 'Rating'
+    click_button 'Leave Review'
+    expect(page).not_to have_link('Review KFC')
   end
 end
