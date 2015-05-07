@@ -81,7 +81,15 @@ feature 'restaurants' do
 
   context 'deleting restaurants' do
     before do
-      Restaurant.create name: 'KFC'
+      user = User.where(email: 'dan.blakeman@oxen.com').last
+      restaurant = Restaurant.create(name: 'KFC', user_id: user.id)
+    end
+
+
+    scenario 'can\'t remove restaurant which you haven\'t created' do
+      Restaurant.create name: 'Makers Diner'
+      visit '/restaurants' 
+      expect(page).not_to have_link 'Delete Makers Diner'
     end
 
     scenario 'remove the restaurant when a user clicks the delete link' do
@@ -89,6 +97,13 @@ feature 'restaurants' do
       click_link 'Delete KFC'
       expect(page).not_to have_content('KFC')
       expect(page).to have_content('Restaurant deleted successfully')
+    end
+
+
+    scenario 'can\'t remove restaurant when signed out' do
+      visit '/restaurants'
+      click_link 'Sign out'
+      expect(page).not_to have_link 'Delete KFC'
     end
   end
 end
