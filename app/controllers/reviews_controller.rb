@@ -15,6 +15,12 @@ class ReviewsController < ApplicationController
     end
   end
 
+  def destroy
+    review = Review.find(params[:id])
+    review.destroy
+    redirect_to '/restaurants'
+  end
+
   def review_params
     review_info = params.require(:review).permit(:thoughts, :rating)
     review_info[:user] = current_user

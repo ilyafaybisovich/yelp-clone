@@ -34,6 +34,26 @@ feature 'reviewing' do
     expect(Review.all.length).to be(0)
   end
 
+  scenario 'user can delete reviews that they have created' do
+    visit '/restaurants'
+    click_link 'Review KFC'
+    fill_in 'Thoughts', with: 'So so'
+    select '3', from: 'Rating'
+    click_button 'Leave Review'
+    click_link 'Delete Review'
+    expect(page).not_to have_content('So so')
+  end
+
+  scenario 'only signed-in author of a review can delete it' do
+    visit '/restaurants'
+    click_link 'Review KFC'
+    fill_in 'Thoughts', with: 'So so'
+    select '3', from: 'Rating'
+    click_button 'Leave Review'
+    click_link 'Sign out'
+    expect(page).not_to have_link('Delete Review')
+  end
+
   scenario 'user can only review restaurant once' do
     visit '/restaurants'
     click_link 'Review KFC'
