@@ -66,7 +66,8 @@ feature 'restaurants' do
 
   context 'editing restaurants' do
     before do
-      Restaurant.create name: 'KFC'
+      user = User.where(email: 'dan.blakeman@oxen.com').last
+      Restaurant.create(name: 'KFC', user_id: user.id)
     end
 
     scenario 'let a user edit a restaurant' do
@@ -77,18 +78,29 @@ feature 'restaurants' do
       expect(page).to have_content 'Kentucky Fried Chicken'
       expect(current_path).to eq '/restaurants'
     end
+
+    scenario 'can\'t edit restaurant which you haven\'t created' do
+      Restaurant.create name: 'Makers Diner'
+      visit '/restaurants'
+      expect(page).not_to have_link 'Edit Makers Diner'
+    end
+
+    scenario 'can\'t edit restaurant when signed out' do
+      visit '/restaurants'
+      click_link 'Sign out'
+      expect(page).not_to have_link 'Edit KFC'
+    end
   end
 
   context 'deleting restaurants' do
     before do
       user = User.where(email: 'dan.blakeman@oxen.com').last
-      restaurant = Restaurant.create(name: 'KFC', user_id: user.id)
+      Restaurant.create(name: 'KFC', user_id: user.id)
     end
-
 
     scenario 'can\'t remove restaurant which you haven\'t created' do
       Restaurant.create name: 'Makers Diner'
-      visit '/restaurants' 
+      visit '/restaurants'
       expect(page).not_to have_link 'Delete Makers Diner'
     end
 
@@ -98,7 +110,6 @@ feature 'restaurants' do
       expect(page).not_to have_content('KFC')
       expect(page).to have_content('Restaurant deleted successfully')
     end
-
 
     scenario 'can\'t remove restaurant when signed out' do
       visit '/restaurants'
