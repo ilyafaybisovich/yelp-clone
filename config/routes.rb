@@ -31,7 +31,9 @@ Rails.application.routes.draw do
   #   end
 
   resources :restaurants do
-    resources :reviews
+    resources :reviews do
+      resources :endorsements
+    end
   end
 
   # Example resource route with sub-resources:
