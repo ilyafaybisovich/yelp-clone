@@ -14,7 +14,13 @@
       <ul>
         <% restaurant.reviews.each do |review| %>
          <li>
-            <p><%= pluralize review.endorsements.count, 'endorsement' %>  <%= link_to "Endorse #{restaurant.name}", restaurant_review_endorsements_path(restaurant, review), method: :post %></p>
+            <p>
+            <span class='endorsements_count'>
+            <%= review.endorsements.count %>  
+            </span> 
+            <%= 'endorsement'.pluralize(review.endorsements.count) %>
+            <%= link_to "Endorse #{restaurant.name}", restaurant_review_endorsements_path(restaurant, review), method: :post, class: 'endorsements-link' %>
+            </p>
             <%= review.thoughts %>, <strong><%= review.rating %></strong>/5
             <% if current_user && current_user.reviews.all.include?(review) %>
             <%= link_to 'Delete Review', restaurant_review_path(restaurant, review), method: :delete %>
